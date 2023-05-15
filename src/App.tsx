@@ -30,6 +30,13 @@ function App(): JSX.Element {
         setTasks(newTasks)
     }
 
+    const changeTaskStatus = (taskId:string, isDone:boolean) =>{
+        const task = tasks.find(t => t.id === taskId) //as TaskType
+        if (task) {
+            task.isDone = isDone
+            setTasks([...tasks])
+        }
+    }
 
     const getFilteredTasks= (tasks:Array<TaskType>, filter: FilterValuesType):Array<TaskType> => {
         return filter === "active" ? tasks.filter(t => !t.isDone) : filter === "completed" ? tasks.filter(t => t.isDone) : tasks;
@@ -51,7 +58,13 @@ function App(): JSX.Element {
 
     return (
         <div className="App">
-            <TodoList tasks={filteredTasks} title={title} removeTask={removeTask} changeFilter={changeFilter} addTask={addTask} />
+            <TodoList tasks={filteredTasks}
+                      title={title}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+                      addTask={addTask}
+                      changeTaskStatus={changeTaskStatus}
+                      filter={filter}/>
 
         </div>
     );
