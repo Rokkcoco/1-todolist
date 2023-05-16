@@ -31,7 +31,7 @@ function App(): JSX.Element {
     }
 
     const changeTaskStatus = (taskId:string, isDone:boolean) =>{
-        const task = tasks.find(t => t.id === taskId) //as TaskType
+        const task = tasks.find(t => t.id === taskId) as TaskType
         if (task) {
             task.isDone = isDone
             setTasks([...tasks])
