@@ -5,10 +5,10 @@ type TodoListPropsType = {
     todolistID: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskId:string) => void
+    removeTask: (todolistID: string, taskId:string) => void
     changeFilter: (todolistID:string, filter:FilterValuesType) => void
-    addTask: (title:string)=>void
-    changeTaskStatus: (taskId:string, isDone:boolean)=>void
+    addTask: (todolistID: string, title:string)=>void
+    changeTaskStatus: (todolistID: string, taskId:string, isDone:boolean)=>void
     filter: FilterValuesType
 }
 
@@ -23,7 +23,7 @@ const TodoList: FC<TodoListPropsType> = ({todolistID, tasks, title, removeTask, 
 
     const onClickButtonHandler = () => {
         if (titleInput.trim() !== "") {
-            addTask(titleInput)
+            addTask(todolistID, titleInput)
             setTitleInput('')
         } else {
             setError("Title is required")
@@ -53,11 +53,11 @@ const TodoList: FC<TodoListPropsType> = ({todolistID, tasks, title, removeTask, 
 
     const tasksJSX: Array<JSX.Element> = tasks.map((task) => {
         const removeTaskHandler = (e:MouseEvent<HTMLButtonElement>) => {
-            removeTask(task.id)
+            removeTask(todolistID, task.id)
         }
         const onChangeInputHandler = (e:ChangeEvent<HTMLInputElement>) => {
             const newStatus = e.currentTarget.checked
-            changeTaskStatus(task.id, newStatus)
+            changeTaskStatus(todolistID, task.id, newStatus)
         }
         return (
             <li key={task.id} className={task.isDone ? "is-done" : ""}>

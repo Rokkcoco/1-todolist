@@ -44,42 +44,18 @@ function App(): JSX.Element {
 
 
 
-    const removeTask = (taskId: string): void => {
-        const updatedTasks = tasks.filter(task => task.id !== taskId)
-        setTasks(updatedTasks)
+    const removeTask = (todolistID: string, taskId: string): void => {
+        setTasks({...tasks, [todolistID]:tasks[todolistID].filter(t => t.id !== taskId)})
     }
 
-    const addTask = (title: string) => {
-        let newTask = {id: v1(), title: title, isDone: false}
-        let newTasks = [newTask, ...tasks]
-        setTasks(newTasks)
+    const addTask = (todolistID: string, title: string) => {
+        const newTask = {id: v1(), title: title, isDone: false}
+        setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]})
     }
 
-    const changeTaskStatus = (taskId: string, isDone: boolean) => {
-        const task = tasks.find(t => t.id === taskId) as TaskType
-        if (task) {
-            task.isDone = isDone
-            setTasks([...tasks])
-        }
+    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(t => t.id === taskId ? {...t, isDone} : t)})
     }
-
-    const getFilteredTasks = (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
-        return filter === "active" ? tasks.filter(t => !t.isDone) : filter === "completed" ? tasks.filter(t => t.isDone) : tasks;
-    }
-
-    // const getFilteredTasks = (tasks: TaskType[], filter: FilterValuesType):TaskType[] =>  { Свитч аналог
-    //     switch (filter) {
-    //         case 'Active':
-    //             return tasks.filter(t => !t.isDone)
-    //         case 'Completed':
-    //             return  tasks.filter(t=> t.isDone)
-    //         default:
-    //             return tasks
-    //     }
-    // }
-
-    const filteredTasks: TaskType[] = getFilteredTasks(tasks, filter)
-
 
 
     const changeFilter = (todolistID: string, value: FilterValuesType) => {
@@ -89,12 +65,12 @@ function App(): JSX.Element {
     return (
         <div className="App">
             {todolists.map(t => {
-                let tasksForTodolist = tasks
+                let tasksForTodolist = tasks[t.id]
                 if (t.filter === "active") {
-                    tasksForTodolist = tasks.filter(t => !t.isDone)
+                    tasksForTodolist = tasks[t.id].filter(t => !t.isDone)
                 }
                 if (t.filter === "completed") {
-                    tasksForTodolist = tasks.filter(t => t.isDone)
+                    tasksForTodolist = tasks[t.id].filter(t => t.isDone)
                 }
                 return (
                     <TodoList key={t.id}
