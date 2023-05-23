@@ -13,6 +13,9 @@ export type TodolistsType = {
 
 function App(): JSX.Element {
 
+    let todolistID1=v1();
+    let todolistID2=v1();
+
     let [todolists, setTodolists] = useState<TodolistsType[]>([
         {id: v1(), title: 'What to learn', filter: 'all'},
         {id: v1(), title: 'What to buy', filter: 'all'},
@@ -35,7 +38,6 @@ function App(): JSX.Element {
         ]
     });
 
-    // const [filter, setFilter] = useState<FilterValuesType>("all")
 
 
     const removeTask = (taskId: string): void => {
