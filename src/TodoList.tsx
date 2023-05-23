@@ -10,6 +10,7 @@ type TodoListPropsType = {
     addTask: (todolistID: string, title:string)=>void
     changeTaskStatus: (todolistID: string, taskId:string, isDone:boolean)=>void
     filter: FilterValuesType
+    removeTodolist: (todolistID: string)=> void
 }
 
 export type TaskType = {
@@ -17,7 +18,7 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
-const TodoList: FC<TodoListPropsType> = ({todolistID, tasks, title, removeTask, changeFilter, addTask, changeTaskStatus, filter}) => {
+const TodoList: FC<TodoListPropsType> = ({removeTodolist, todolistID, tasks, title, removeTask, changeFilter, addTask, changeTaskStatus, filter}) => {
     const [titleInput, setTitleInput] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
@@ -68,9 +69,16 @@ const TodoList: FC<TodoListPropsType> = ({todolistID, tasks, title, removeTask, 
         )
     })
 
+    const removeTodolistHanlder = () => {
+        removeTodolist(todolistID)
+    }
+
     return (
         <div className="todoList">
-            <h3>{title}</h3>
+            <h3>
+                {title}
+                <button onClick={removeTodolistHanlder}>X</button>
+            </h3>
             <div>
                 <input value={titleInput}
                        onChange={inputOnChangeHandler}
