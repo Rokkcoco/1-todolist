@@ -2,10 +2,11 @@ import React, {ChangeEvent, FC, KeyboardEvent, useState, MouseEvent} from 'react
 import {FilterValuesType} from "./App";
 
 type TodoListPropsType = {
+    todolistID: string
     title: string
     tasks: Array<TaskType>
     removeTask: (taskId:string) => void
-    changeFilter: (filter:FilterValuesType) => void
+    changeFilter: (todolistID:string, filter:FilterValuesType) => void
     addTask: (title:string)=>void
     changeTaskStatus: (taskId:string, isDone:boolean)=>void
     filter: FilterValuesType
@@ -16,7 +17,7 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
-const TodoList: FC<TodoListPropsType> = ({tasks, title, removeTask, changeFilter, addTask, changeTaskStatus, filter}) => {
+const TodoList: FC<TodoListPropsType> = ({todolistID, tasks, title, removeTask, changeFilter, addTask, changeTaskStatus, filter}) => {
     const [titleInput, setTitleInput] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
@@ -39,15 +40,15 @@ const TodoList: FC<TodoListPropsType> = ({tasks, title, removeTask, changeFilter
     }
 
     const setFilterAll = () =>{
-       changeFilter("all")
+       changeFilter(todolistID, "all")
     }
 
     const setFilterActive = () =>{
-        changeFilter("active")
+        changeFilter(todolistID,"active")
     }
 
     const setFilterCompleted = () =>{
-        changeFilter("completed")
+        changeFilter(todolistID,"completed")
     }
 
     const tasksJSX: Array<JSX.Element> = tasks.map((task) => {
