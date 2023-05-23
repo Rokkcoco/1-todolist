@@ -11,17 +11,21 @@ export type TodolistsType = {
     filter: FilterValuesType
 }
 
+type TaskAssocType = {
+    [key: string]: TaskType[]
+}
+
 function App(): JSX.Element {
 
     let todolistID1=v1();
     let todolistID2=v1();
 
     let [todolists, setTodolists] = useState<TodolistsType[]>([
-        {id: v1(), title: 'What to learn', filter: 'all'},
-        {id: v1(), title: 'What to buy', filter: 'all'},
+        {id: todolistID1, title: 'What to learn', filter: 'all'},
+        {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TaskAssocType>({
         [todolistID1]:[
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
