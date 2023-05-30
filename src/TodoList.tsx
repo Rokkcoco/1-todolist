@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState, MouseEvent} from 'react';
+import React, {ChangeEvent, FC, MouseEvent} from 'react';
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -75,14 +75,6 @@ const TodoList: FC<TodoListPropsType> = ({updateTodolist, updateTask, removeTodo
                 <EditableSpan title={title} callback={(updateTitle)=>updateTodolistHandler(updateTitle)}/>
                 <button onClick={removeTodolistHanlder}>X</button>
             </h3>
-            {/*<div>*/}
-            {/*    <input value={titleInput}*/}
-            {/*           onChange={inputOnChangeHandler}*/}
-            {/*           onKeyPress={inputOnKeyHandler}*/}
-            {/*        className={error ? "error" : ""}/>*/}
-            {/*    {error && <div className={"error-message"}>{error}</div>}*/}
-            {/*    <button onClick={onClickButtonHandler}>+</button>*/}
-            {/*</div>*/}
             <AddItemForm callback={addTaskHandler}/>
             <ul>
                 {tasksJSX}
