@@ -88,12 +88,10 @@ function App(): JSX.Element {
             <AddItemForm callback={addTodolist}/>
             {todolists.map(t => {
                 let tasksForTodolist = tasks[t.id]
-                if (t.filter === "active") {
-                    tasksForTodolist = tasks[t.id].filter(t => !t.isDone)
-                }
-                if (t.filter === "completed") {
-                    tasksForTodolist = tasks[t.id].filter(t => t.isDone)
-                }
+                if (t.filter === "active") tasksForTodolist = tasks[t.id].filter(t => !t.isDone)
+
+                if (t.filter === "completed") tasksForTodolist = tasks[t.id].filter(t => t.isDone)
+
                 return (
                     <TodoList key={t.id}
                               todolistID={t.id}

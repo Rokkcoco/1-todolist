@@ -5,7 +5,7 @@ type EditableSpanType = {
     callback:(title: string)=>void
 }
 export const EditableSpan: FC<EditableSpanType> = ({callback, title}) => {
-    const [titleInput, setTitleInput] = useState(title)
+    const [newTitle, setNewTitle] = useState(title)
     const [edit, setEdit] = useState(false)
     const editHandler = () => {
         setEdit(!edit)
@@ -14,17 +14,15 @@ export const EditableSpan: FC<EditableSpanType> = ({callback, title}) => {
         }
     }
 
-    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitleInput(e.currentTarget.value)
-    }
+    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setNewTitle(e.currentTarget.value)
 
-    const addTaskHandler = () => {
-callback(titleInput)
-    }
+
+    const addTaskHandler = () => callback(newTitle)
+
 
     return (
-        edit ? <input value={titleInput} onBlur={editHandler} onChange={inputOnChangeHandler} autoFocus/>
-            : <span onDoubleClick={editHandler}>{titleInput}</span>
+        edit ? <input value={newTitle} onBlur={editHandler} onChange={inputOnChangeHandler} autoFocus/>
+            : <span onDoubleClick={editHandler}>{title}</span>
     );
 };
 

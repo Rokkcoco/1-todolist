@@ -18,9 +18,8 @@ export const AddItemForm:FC<AddItemFormType> = ({callback}) => {
         }
     }
 
-    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitleInput(e.currentTarget.value)
-    }
+    const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTitleInput(e.currentTarget.value)
+
 
     const inputOnKeyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
