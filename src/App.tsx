@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./TodoList";
 import {v1} from "uuid";
@@ -7,6 +7,8 @@ import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import {todolistsReducer} from "./reducers/todolistsReducer";
+import {tasksReducer} from "./reducers/tasksReducers";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -16,7 +18,7 @@ export type TodolistsType = {
     filter: FilterValuesType
 }
 
-type TaskAssocType = {
+export type TaskAssocType = {
     [key: string]: TaskType[]
 }
 
@@ -25,12 +27,34 @@ function App(): JSX.Element {
     let todolistID1=v1();
     let todolistID2=v1();
 
-    let [todolists, setTodolists] = useState<TodolistsType[]>([
+    // let [todolists, setTodolists] = useState<TodolistsType[]>([
+    //     {id: todolistID1, title: 'What to learn', filter: 'all'},
+    //     {id: todolistID2, title: 'What to buy', filter: 'all'},
+    // ])
+
+    // let [tasks, setTasks] = useState<TaskAssocType>({
+    //     [todolistID1]:[
+    //         {id: v1(), title: "HTML&CSS", isDone: true},
+    //         {id: v1(), title: "JS", isDone: true},
+    //         {id: v1(), title: "ReactJS", isDone: false},
+    //         {id: v1(), title: "Rest API", isDone: false},
+    //         {id: v1(), title: "GraphQL", isDone: false},
+    //     ],
+    //     [todolistID2]:[
+    //         {id: v1(), title: "HTML&CSS2", isDone: true},
+    //         {id: v1(), title: "JS2", isDone: true},
+    //         {id: v1(), title: "ReactJS2", isDone: false},
+    //         {id: v1(), title: "Rest API2", isDone: false},
+    //         {id: v1(), title: "GraphQL2", isDone: false},
+    //     ]
+    // });
+
+    let [todolists, dispatchTodolists] = useReducer(todolistsReducer,[
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
 
-    let [tasks, setTasks] = useState<TaskAssocType>({
+    let [tasks, dispatchTasks] = useReducer(tasksReducer, {
         [todolistID1]:[
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
