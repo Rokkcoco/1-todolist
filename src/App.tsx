@@ -74,7 +74,7 @@ function App(): JSX.Element {
 
 
     const removeTask = (todolistID: string, taskId: string): void => {
-        setTasks({...tasks, [todolistID]:tasks[todolistID].filter(t => t.id !== taskId)})
+        setTask s({...tasks, [todolistID]:tasks[todolistID].filter(t => t.id !== taskId)})
     }
 
     const addTask = (todolistID: string, title: string) => {
