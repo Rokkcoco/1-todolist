@@ -116,6 +116,7 @@ function App(): JSX.Element {
         dispatchTasks(deleteTaskAC(todolistID))
     }
 
+//не работает
     const addTodolist = (title: string) => {
         const todolistID = v1()
     // const newTodo = {id: todolistId, title, filter: "all"} as TodolistsType
@@ -125,6 +126,7 @@ function App(): JSX.Element {
         dispatchTasks(addTasksForTodolistAC(todolistID))
     }
 
+    //не работает
     const updateTask = (todolistID: string, taskID:string, title: string) => {
     // setTasks({...tasks, [todolistID]:tasks[todolistID].map(t=> t.id === taskID ? {...t, title} : t)})
         dispatchTasks(updateTaskAC(todolistID, taskID, title))
