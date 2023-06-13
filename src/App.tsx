@@ -13,7 +13,7 @@ import {
     removeTodolistAC,
     todolistsReducer,
     updateTodolistAC
-} from "./reducers/todolistsReducer";
+} from "./reducers/todolists-reducer";
 import {
     addTaskAC,
     addTasksForTodolistAC, changeTaskStatusAC,
@@ -21,7 +21,7 @@ import {
     removeTaskAC,
     tasksReducer,
     updateTaskAC
-} from "./reducers/tasksReducers";
+} from "./reducers/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -121,7 +121,7 @@ function App(): JSX.Element {
     // const newTodo = {id: todolistId, title, filter: "all"} as TodolistsType
     //     setTodolists([...todolists, newTodo])
     //     setTasks({...tasks, [todolistId]:[]})
-        dispatchTodolists(addTodolistAC(todolistID, title))
+        dispatchTodolists(addTodolistAC(title))
         dispatchTasks(addTasksForTodolistAC(todolistID))
     }
 
