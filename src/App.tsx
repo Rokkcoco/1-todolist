@@ -122,7 +122,7 @@ function App(): JSX.Element {
     // const newTodo = {id: todolistId, title, filter: "all"} as TodolistsType
     //     setTodolists([...todolists, newTodo])
     //     setTasks({...tasks, [todolistId]:[]})
-        dispatchTodolists(addTodolistAC(title))
+        dispatchTodolists(addTodolistAC(todolistID, title))
         dispatchTasks(addTasksForTodolistAC(todolistID))
     }
 
