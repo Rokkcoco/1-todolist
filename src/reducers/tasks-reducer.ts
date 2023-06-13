@@ -11,7 +11,7 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
         case "ADD-TODOLIST":
             return {...state, [action.payload.todolistID]:[]}
         case "UPDATE-TASK":
-            return {...state, [action.payload.todolistID]:state[action.payload.todolistID].map(t=> t.id === action.payload.todolistID ? {...t, title: action.payload.title} : t)}
+            return {...state, [action.payload.todolistID]:state[action.payload.todolistID].map(t=> t.id === action.payload.taskID ? {...t, title: action.payload.title} : t)}
         case "DELETE-TASK":
             delete state[action.payload.todolistID]
             return state
