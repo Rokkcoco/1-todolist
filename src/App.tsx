@@ -16,8 +16,7 @@ import {
 } from "./reducers/todolists-reducer";
 import {
     addTaskAC,
-    addTasksForTodolistAC, changeTaskStatusAC,
-    deleteTaskAC,
+    changeTaskStatusAC,
     removeTaskAC,
     tasksReducer,
     updateTaskAC
@@ -113,16 +112,16 @@ function App(): JSX.Element {
         // setTodolists(todolists.filter(t => t.id !== todolistID))
         // delete tasks[todolistID]
         dispatchTodolists(removeTodolistAC(todolistID))
-        dispatchTasks(deleteTaskAC(todolistID))
+        dispatchTasks(removeTodolistAC(todolistID))
     }
 
     const addTodolist = (title: string) => {
-        const todolistID = v1()
     // const newTodo = {id: todolistId, title, filter: "all"} as TodolistsType
     //     setTodolists([...todolists, newTodo])
     //     setTasks({...tasks, [todolistId]:[]})
-        dispatchTodolists(addTodolistAC(todolistID, title))
-        dispatchTasks(addTasksForTodolistAC(todolistID))
+        const res = addTodolistAC(title)
+        dispatchTodolists(res)
+        dispatchTasks(res)
     }
 
     const updateTask = (todolistID: string, taskID:string, title: string) => {

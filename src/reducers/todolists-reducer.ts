@@ -16,7 +16,7 @@ export const todolistsReducer = (state: TodolistsType[], action: TodolistsAction
     }
 }
 
-//const {payload} = action деструктурирование
+//const {payload} = action деструктурирование, деструктурузацция создает новый объект
 
 type TodolistsActionType = ChangeFilterType | RemoveTodolistType | UpdateTodolistType | AddTodolistType
 type ChangeFilterType = ReturnType<typeof changeFilterAC>

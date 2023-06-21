@@ -14,8 +14,11 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
         case "UPDATE-TASK":
             return {...state, [action.payload.todolistID]:state[action.payload.todolistID].map(t=> t.id === action.payload.taskID ? {...t, title: action.payload.title} : t)}
         case "REMOVE-TODOLIST":
-            delete state[action.payload.todolistID]
-            return state
+            // const copyState = {...state}
+            // delete copyState[action.payload.todolistID]
+            // return copyState
+        const {[action.payload.todolistID]:[], ...rest} = state
+            return rest
         case "CHANGE-TASK-STATUS":
             return {...state, [action.payload.todolistID]:state[action.payload.todolistID].map(t => t.id === action.payload.taskID ? {...t, isDone: action.payload.isDone} : t)}
         default:
@@ -23,7 +26,7 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
     }
 }
 
-//const {payload} = action деструктурирование
+//const {payload} = action деструктурирование, деструктурузацция создает новый объект
 
 
 type TasksActionType = RemoveTaskType | AddTaskType | AddTodolistType | UpdateTaskType | ChangeTaskStatusType | RemoveTodolistType
