@@ -1,5 +1,6 @@
 import {TaskAssocType} from "../App";
 import {v1} from "uuid";
+import {AddTodolistType, RemoveTodolistType} from "./todolists-reducer";
 
 
 export const tasksReducer = (state: TaskAssocType, action: TasksActionType):TaskAssocType => {
@@ -12,7 +13,7 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
             return {...state, [action.payload.todolistID]:[]}
         case "UPDATE-TASK":
             return {...state, [action.payload.todolistID]:state[action.payload.todolistID].map(t=> t.id === action.payload.taskID ? {...t, title: action.payload.title} : t)}
-        case "DELETE-TASK":
+        case "REMOVE-TODOLIST":
             delete state[action.payload.todolistID]
             return state
         case "CHANGE-TASK-STATUS":
@@ -25,12 +26,10 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
 //const {payload} = action деструктурирование
 
 
-type TasksActionType = RemoveTaskType | AddTaskType | AddTodolistType | UpdateTaskType | DeleteTaskType | ChangeTaskStatusType
+type TasksActionType = RemoveTaskType | AddTaskType | AddTodolistType | UpdateTaskType | ChangeTaskStatusType | RemoveTodolistType
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddTaskType = ReturnType<typeof addTaskAC>
-type AddTodolistType = ReturnType<typeof addTasksForTodolistAC>
 type UpdateTaskType = ReturnType<typeof updateTaskAC>
-type DeleteTaskType = ReturnType<typeof deleteTaskAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 
 export const removeTaskAC = (todolistID: string, taskID: string) => ({
@@ -49,26 +48,12 @@ export const addTaskAC = (todolistID: string, title: string) => ({
     }
 }as const)
 
-export const addTasksForTodolistAC = (todolistID: string) => ({
-    type: "ADD-TODOLIST",
-    payload: {
-        todolistID
-    }
-}as const)
-
 export const updateTaskAC = (todolistID: string, taskID: string, title: string) => ({
     type: "UPDATE-TASK",
     payload: {
         todolistID,
         taskID,
         title
-    }
-}as const)
-
-export const deleteTaskAC = (todolistID:string) => ({
-    type: "DELETE-TASK",
-    payload: {
-        todolistID
     }
 }as const)
 
