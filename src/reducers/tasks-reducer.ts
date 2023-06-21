@@ -22,6 +22,9 @@ export const tasksReducer = (state: TaskAssocType, action: TasksActionType):Task
     }
 }
 
+//const {payload} = action деструктурирование
+
+
 type TasksActionType = RemoveTaskType | AddTaskType | AddTodolistType | UpdateTaskType | DeleteTaskType | ChangeTaskStatusType
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddTaskType = ReturnType<typeof addTaskAC>
