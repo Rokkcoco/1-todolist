@@ -3,7 +3,10 @@ import {v1} from "uuid";
 import {AddTodolistType, RemoveTodolistType} from "./todolists-reducer";
 
 
-export const tasksReducer = (state: TaskAssocType, action: TasksActionType):TaskAssocType => {
+
+const initialState:TaskAssocType = {}
+
+export const tasksReducer = (state: TaskAssocType = initialState, action: TasksActionType):TaskAssocType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.payload.todolistID]:state[action.payload.todolistID].filter(t => t.id !== action.payload.taskID)}
