@@ -1,10 +1,10 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent, FC, memo, useState} from 'react';
 
 type EditableSpanType = {
     title: string
     callback:(title: string)=>void
 }
-export const EditableSpan: FC<EditableSpanType> = ({callback, title}) => {
+export const EditableSpan: FC<EditableSpanType> = memo(({callback, title}) => {
     const [newTitle, setNewTitle] = useState(title)
     const [edit, setEdit] = useState(false)
     const editHandler = () => {
@@ -24,5 +24,5 @@ export const EditableSpan: FC<EditableSpanType> = ({callback, title}) => {
         edit ? <input value={newTitle} onBlur={editHandler} onChange={inputOnChangeHandler} autoFocus/>
             : <span onDoubleClick={editHandler}>{title}</span>
     );
-};
+})
 

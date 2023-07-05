@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
@@ -7,7 +7,7 @@ type AddItemFormType = {
 
 }
 
-export const AddItemForm:FC<AddItemFormType> = ({callback}) => {
+export const AddItemForm:FC<AddItemFormType> = memo(({callback}) => {
     const [titleInput, setTitleInput] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
@@ -22,9 +22,9 @@ export const AddItemForm:FC<AddItemFormType> = ({callback}) => {
 
     const inputOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTitleInput(e.currentTarget.value)
 
-
+//добавили проверку на наличие ошибки чтобы не было лишнего рендера
     const inputOnKeyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error) setError(null)
         e.key === "Enter" && onClickButtonHandler()
     }
 
@@ -51,5 +51,5 @@ export const AddItemForm:FC<AddItemFormType> = ({callback}) => {
             <Button style={buttonStyles} variant="contained" onClick={onClickButtonHandler}>+</Button>
         </div>
     );
-};
+});
 
