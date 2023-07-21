@@ -16,3 +16,16 @@ export const GetTodolists = () => {
     }, [])
     return <div>{JSON.stringify(state)}</div>
 }
+export const CreateTodolist = () => {
+    const [state, setState] = useState<any>(null)
+    const title = "YOYO"
+
+    useEffect(() => {
+        todoListApi.addTodo(title)
+            .then((res) => {
+                setState(res.data)
+            })
+    }, [])
+
+    return <div>{JSON.stringify(state)}</div>
+}
