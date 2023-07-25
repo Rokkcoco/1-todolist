@@ -8,7 +8,6 @@ const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/",
     withCredentials: true
 })
-
 export const todoListApi = {
     getTodos() {
         return instance.get<TodoListType[]>("todo-lists")
@@ -28,8 +27,8 @@ export const todoListApi = {
     addTask(todolistID:string, title:string) {
         return instance.post<CreateResponseType<{item : TaskType[]}>>(`todo-lists/${todolistID}/tasks`, {title})
     },
-    updateTask(todolistID:string, taskID:string, title: string) {
-        return instance.put<CreateResponseType<{item : TaskType[]}>>(`todo-lists/${todolistID}/tasks/${taskID}`, {title})
+    updateTask(todolistID:string, taskID:string, model: UpdateTaskModelType) {
+        return instance.put<CreateResponseType<{item : TaskType[]}>>(`todo-lists/${todolistID}/tasks/${taskID}`, model)
     },
     deleteTask(todolistID:string, taskID:string) {
         return instance.delete<CreateResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
@@ -51,14 +50,23 @@ type CreateResponseType<T = {}> = {
 }
 
 type TaskType = {
-        addedDate: string
-        deadline: string | null
-        description: string | null
-        id: string
-        order: number
-        priority: number
-        startDate: null
-        status: number
-        title: string
-        todoListId: string
+    addedDate: string
+    deadline: string | null
+    description: string | null
+    id: string
+    order: number
+    priority: number
+    startDate: null
+    status: number
+    title: string
+    todoListId: string
+}
+
+type UpdateTaskModelType = {
+    title: string
+    description?: string
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
 }

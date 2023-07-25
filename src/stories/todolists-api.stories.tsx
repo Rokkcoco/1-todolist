@@ -81,8 +81,8 @@ export const UpdateTask = () => {
     const todolistID = "5723eb4d-7de7-4535-8809-abb568c527c8"
     const taskID = "e2c3b96c-a0a9-4ae7-8713-4998ccd84db6"
     useEffect(() => {
-        todoListApi.updateTask(todolistID, taskID,"MOBMOBSS").then((res) => {
-            console.log(res)
+        todoListApi.updateTask(todolistID, taskID,{title: "MOBMOBSS"}).then((res) => {
+            console.log(res.data)
             setState(res.data.data.item)
         })
     }, [])
