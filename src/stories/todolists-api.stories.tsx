@@ -9,7 +9,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todoListApi.get()
+        todoListApi.getTodos()
             .then((res) => {
                 setState(res.data)
             })
@@ -54,5 +54,49 @@ export const UpdateTodolistTitle = () => {
             })
     }, [])
 
+    return <div>{JSON.stringify(state)}</div>
+}
+export const GetTasks = () => {
+    const [state, setState] = useState<any>(null)
+    const todolistID = "5723eb4d-7de7-4535-8809-abb568c527c8"
+    useEffect(() => {
+        todoListApi.getTasks(todolistID).then((res) => {
+            setState(res.data)
+        })
+    }, [])
+    return <div>{JSON.stringify(state)}</div>
+}
+export const AddTask = () => {
+    const [state, setState] = useState<any>(null)
+    const todolistID = "5723eb4d-7de7-4535-8809-abb568c527c8"
+    useEffect(() => {
+        todoListApi.addTask(todolistID, "NENE").then((res) => {
+            setState(res.data.data.item)
+        })
+    }, [])
+    return <div>{JSON.stringify(state)}</div>
+}
+export const UpdateTask = () => {
+    const [state, setState] = useState<any>(null)
+    const todolistID = "5723eb4d-7de7-4535-8809-abb568c527c8"
+    const taskID = "e2c3b96c-a0a9-4ae7-8713-4998ccd84db6"
+    useEffect(() => {
+        todoListApi.updateTask(todolistID, taskID,"MOBMOBSS").then((res) => {
+            console.log(res)
+            setState(res.data.data.item)
+        })
+    }, [])
+    return <div>{JSON.stringify(state)}</div>
+}
+export const DeleteTask = () => {
+    const [state, setState] = useState<any>(null)
+    const todolistID = "5723eb4d-7de7-4535-8809-abb568c527c8"
+    const taskID = "9b266300-818d-42d3-94ed-0db2860704cb"
+    useEffect(() => {
+        todoListApi.deleteTask(todolistID, taskID).then((res) => {
+            console.log(res)
+            setState(res.data)
+        })
+    }, [])
     return <div>{JSON.stringify(state)}</div>
 }
