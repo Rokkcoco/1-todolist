@@ -5,17 +5,17 @@ const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/",
     withCredentials: true
 })
-export const todoListApi = {
-    getTodos() {
+export const todolistsAPI = {
+    getTodolists() {
         return instance.get<TodolistType[]>("todo-lists")
     },
-    addTodo(title: string) {
+    addTodolist(title: string) {
         return instance.post<CreateResponseType<{item: TodolistType}>, AxiosResponse<CreateResponseType<{ item: TodolistType }>>, { title: string }>("todo-lists", {title})
     },
-    updateTodo(todolistID: string, title: string) {
+    updateTodolist(todolistID: string, title: string) {
         return instance.put<CreateResponseType,  AxiosResponse<CreateResponseType>, { title: string }>(`todo-lists/${todolistID}`, {title})
     },
-    deleteTodo(todolistID: string) {
+    deleteTodolist(todolistID: string) {
         return instance.delete<CreateResponseType>(`todo-lists/${todolistID}`)
     },
     getTasks(todolistID:string) {
@@ -32,7 +32,7 @@ export const todoListApi = {
     }
 }
 
-type TodolistType = {
+export type TodolistType = {
     addedDate: string
     id: string
     order: number
@@ -51,14 +51,14 @@ type GetTasksResponse = {
     items: TaskType[]
 }
 
-type TaskType = {
+export type TaskType = {
     addedDate: string
-    deadline: string | null
-    description: string | null
+    deadline: string
+    description: string
     id: string
     order: number
     priority: number
-    startDate: null
+    startDate: string
     status: number
     title: string
     todoListId: string
@@ -79,7 +79,7 @@ export enum TaskPriorities {
     Later = 4
 }
 
-type UpdateTaskModelType = {
+export type UpdateTaskModelType = {
     title: string
     description: string
     status: TaskStatuses

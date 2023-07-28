@@ -1,5 +1,5 @@
-import React, {FC, memo, useCallback} from 'react';
-import {FilterValuesType} from "./App";
+import React, {FC, memo, useCallback, useEffect} from 'react';
+
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import Button from "@mui/material/Button";
@@ -7,6 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
+import {getTasksTC} from "./state/tasks-reducer";
+import {useAppDispatch} from "./state/store";
+import {FilterValuesType} from "./AppWithRedux";
 
 type TodoListPropsType = {
     todolistID: string
@@ -15,21 +19,21 @@ type TodoListPropsType = {
     removeTask: (todolistID: string, taskId: string) => void
     changeFilter: (todolistID: string, filter: FilterValuesType) => void
     addTask: (todolistID: string, title: string) => void
-    changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
+    changeTaskStatus: (todolistID: string, taskId: string, status: TaskStatuses) => void
     filter: FilterValuesType
     removeTodolist: (todolistID: string) => void
-    updateTask: (todolistID: string, taskID: string, title: string) => void
-    updateTodolist: (todolistID: string, title: string) => void
+    changeTaskTitle: (todolistID: string, taskID: string, title: string) => void
+    changeTodolistTitle: (todolistID: string, title: string) => void
 }
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+// export type OldTaskType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// }
 const TodoList: FC<TodoListPropsType> = memo(({
-                                                  updateTodolist,
-                                                  updateTask,
+                                                  changeTodolistTitle,
+                                                  changeTaskTitle,
                                                   removeTodolist,
                                                   todolistID,
                                                   tasks,
@@ -48,14 +52,18 @@ const TodoList: FC<TodoListPropsType> = memo(({
 
 
     const setFilterCompleted = useCallback(() => changeFilter(todolistID, "completed"),[changeFilter, todolistID])
+    const dispatch = useAppDispatch()
 
+    useEffect(() => {
+        dispatch(getTasksTC(todolistID))
+    },[])
 
     if (filter === "active") {
-        tasks = tasks.filter(t => !t.isDone)
+        tasks = tasks.filter(t => t.status === TaskStatuses.New)
     }
 
     if (filter === "completed") {
-        tasks = tasks.filter(t => t.isDone)
+        tasks = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
 
@@ -64,17 +72,17 @@ const TodoList: FC<TodoListPropsType> = memo(({
     const addTaskHandler = useCallback((title: string) => addTask(todolistID, title), [addTask, todolistID])
 
 
-    const updateTodolistHandler = useCallback((title: string) => updateTodolist(todolistID, title), [updateTodolist, todolistID])
+    const updateTodolistHandler = useCallback((title: string) => changeTodolistTitle(todolistID, title), [changeTodolistTitle, todolistID])
 
     const removeTaskHandler = useCallback((taskID: string) => removeTask(todolistID, taskID), [removeTask, todolistID])
 
-    const changeTaskStatusHandler = useCallback((taskID: string, newStatus: boolean) => {
+    const changeTaskStatusHandler = useCallback((taskID: string, newStatus: TaskStatuses) => {
         changeTaskStatus(todolistID, taskID, newStatus)
     }, [changeTaskStatus, todolistID])
 
     const changeTaskFilter = useCallback((taskID: string,updateTitle:string) => {
-        updateTask(todolistID, taskID, updateTitle)
-    }, [updateTask, todolistID])
+        changeTaskTitle(todolistID, taskID, updateTitle)
+    }, [changeTaskTitle, todolistID])
 
     const tasksJSX: Array<JSX.Element> = tasks.map((task) => {
         return <Task key={task.id} task={task} removeTask={removeTaskHandler} changeTaskStatus={changeTaskStatusHandler} updateTask={changeTaskFilter}/>

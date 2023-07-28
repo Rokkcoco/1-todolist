@@ -1,6 +1,6 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./TodoList";
+import TodoList from "./TodoList";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
@@ -8,70 +8,73 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {
     addTodolistAC,
-    changeFilterAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    getTodolists,
     removeTodolistAC,
-    updateTodolistAC
+    TodolistDomainType
 } from "./state/todolists-reducer";
 import {
-    addTaskAC,
+    addTaskTC,
     changeTaskStatusAC,
-    removeTaskAC,
-    updateTaskAC
+    changeTaskStatusTC,
+    changeTaskTitleAC,
+    deleteTaskTC
 } from "./state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./state/store";
+import {TaskStatuses, TaskType} from "./api/todolists-api";
 
 export type FilterValuesType = "all" | "active" | "completed"
 
-export type TodolistsType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
 
 export type TaskAssocType = {
     [key: string]: TaskType[]
 }
 
-function AppWithRedux(): JSX.Element {
-    const todolists = useSelector<AppRootStateType, TodolistsType[]>(state => state.todolists)
+const AppWithRedux = (): JSX.Element => {
+    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TaskAssocType>( state => state.tasks)
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getTodolists())
+    },[])
 
     const removeTask = useCallback((todolistID: string, taskId: string): void => {
-        dispatch(removeTaskAC(todolistID, taskId))
-    },[dispatch])
+        dispatch(deleteTaskTC(todolistID, taskId))
+    },[])
 
     const addTask = useCallback((todolistID: string, title: string) => {
-        dispatch(addTaskAC(todolistID, title))
-    },[dispatch])
+        dispatch(addTaskTC(todolistID, title))
+    },[])
 
-    const changeTaskStatus = useCallback((todolistID: string, taskID: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistID, taskID, isDone))
-    },[dispatch])
+    const changeTaskStatus = useCallback((todolistID: string, taskID: string, status: number) => {
+        dispatch(changeTaskStatusAC(todolistID, taskID, status))
+    },[])
 
 
     const changeFilter = useCallback((todolistID: string, value: FilterValuesType) => {
-        dispatch(changeFilterAC(todolistID, value))
-    },[dispatch])
+        dispatch(changeTodolistFilterAC(todolistID, value))
+    },[])
 
     const removeTodolist = useCallback((todolistID: string) => {
         const action = removeTodolistAC(todolistID)
         dispatch(action)
-    },[dispatch])
+    },[])
 //диспатч создается 1 раз , смысла писать его нет, но чтобы не было ворнинга в консоли надо добавить диспатч в []
     const addTodolist = useCallback((title: string) => {
         const action = addTodolistAC(title)
         dispatch(action)
-    }, [dispatch])
+    }, [])
 
-    const updateTask = useCallback((todolistID: string, taskID:string, title: string) => {
-        dispatch(updateTaskAC(todolistID, taskID, title))
-    },[dispatch])
+    const changeTaskTitle = useCallback((todolistID: string, taskID:string, title: string) => {
+        dispatch(changeTaskTitleAC(todolistID, taskID, title))
+    },[])
 
-    const updateTodolist = useCallback((todolistID: string, title: string) => {
-        dispatch(updateTodolistAC(todolistID, title))
-    },[dispatch])
+    const changeTodolistTitle = useCallback((todolistID: string, title: string) => {
+        dispatch(changeTodolistTitleAC(todolistID, title))
+    },[])
     return (
         <div className="App">
             <ButtonAppBar/>
@@ -93,8 +96,8 @@ function AppWithRedux(): JSX.Element {
                               changeTaskStatus={changeTaskStatus}
                               filter={t.filter}
                               removeTodolist={removeTodolist}
-                              updateTask={updateTask}
-                              updateTodolist={updateTodolist}/>
+                              changeTaskTitle={changeTaskTitle}
+                              changeTodolistTitle={changeTodolistTitle}/>
                     </Paper>
                 </Grid>
             })}
@@ -102,6 +105,6 @@ function AppWithRedux(): JSX.Element {
         </Container>
         </div>
     );
-}
+};
 
 export default AppWithRedux;

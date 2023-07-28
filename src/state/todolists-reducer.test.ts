@@ -1,4 +1,4 @@
-import {addTodolistAC, changeFilterAC, removeTodolistAC, todolistsReducer, updateTodolistAC} from './todolists-reducer';
+import {addTodolistAC, changeTodolistFilterAC, removeTodolistAC, todolistsReducer, changeTodolistTitleAC} from './todolists-reducer';
 import {v1} from 'uuid';
 import {FilterValuesType, TodolistsType} from '../App';
 //модульная область видимости
@@ -48,7 +48,7 @@ test('correct todolist should change its name', () => {
     } as const;
 
     // const endState = todolistsReducer(startState, action);
-    const endState = todolistsReducer(startState, updateTodolistAC(todolistId2, newTodolistTitle))
+    const endState = todolistsReducer(startState, changeTodolistTitleAC(todolistId2, newTodolistTitle))
 
     expect(endState[0].title).toBe("What to learn");
     expect(endState[1].title).toBe(newTodolistTitle);
@@ -65,7 +65,7 @@ test('correct filter of todolist should be changed', () => {
     } as const;
 
     //const endState = todolistsReducer(startState, action);
-    const endState = todolistsReducer(startState, changeFilterAC(todolistId2, newFilter));
+    const endState = todolistsReducer(startState, changeTodolistFilterAC(todolistId2, newFilter));
 
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
